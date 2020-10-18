@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "pkg-downloader"
+version = "0.1.0"
+description = "A streamlined way to download packages for offline installation."
+authors = ["Dan"]
+license = "MIT"
+readme = "README.md"
+classifiers = [
+        "Programming Language :: Python :: 3",
+        "Development Status :: 1 - Planning",
+]
+packages = [
+    { include = "pkgdownloader" }
+]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+docker = "^4.3.1"
+Jinja2 = "^2.11.2"
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.1.1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+pkg-downloader = 'pkgdownloader.pkgdownloader:run'

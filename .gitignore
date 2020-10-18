@@ -1,0 +1,10 @@
+# IDE Files
+.idea
+.vscode
+
+# Python & Project Files
+venv/
+*_packages/
+__pycache__/
+.pytest_cache/
+pkgdownloader/docker/*

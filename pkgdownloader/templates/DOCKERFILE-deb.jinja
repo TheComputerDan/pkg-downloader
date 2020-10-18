@@ -1,0 +1,19 @@
+FROM {{image}}:{{tag}}
+
+RUN mkdir -p /{{image}}_{{tag}}_packages
+
+WORKDIR /{{image}}_{{tag}}_packages
+
+RUN apt update
+
+RUN echo "#!/bin/bash" >> /root/downloader.sh
+
+{% for package in packages -%}
+
+RUN echo "mkdir -p /{{image}}_{{tag}}_packages/{{package}}" >> /root/downloader.sh
+RUN echo "cd /{{image}}_{{tag}}_packages/{{package}}" >> /root/downloader.sh
+RUN echo "apt-get download {{package}} && apt-cache depends --recurse --no-recommends --no-suggests --no-conflicts --no-breaks --no-replaces --no-enhances {{package}} | grep \"^\\w\" | sort -u | xargs apt-get download" >> /root/downloader.sh
+
+{% endfor %}
+
+ENTRYPOINT [ "/bin/bash","/root/downloader.sh"]

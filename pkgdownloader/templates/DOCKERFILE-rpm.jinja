@@ -1,0 +1,21 @@
+FROM {{image}}:{{tag}}
+
+RUN mkdir /{{image}}_{{tag}}_packages
+
+RUN yum install -y epel-release
+RUN yum install -y yum-utils
+
+WORKDIR /{{image}}_{{tag}}_packages
+
+RUN yum update
+
+RUN echo "#!/bin/bash" >> /root/downloader.sh
+
+{% for package in packages -%}
+
+# RUN mkdir {{package}}
+RUN echo "yumdownloader --destdir=/{{image}}_{{tag}}_packages/{{package}} --resolve {{package}}" >> /root/downloader.sh
+
+{% endfor %}
+
+ENTRYPOINT [ "/bin/bash","/root/downloader.sh"]
