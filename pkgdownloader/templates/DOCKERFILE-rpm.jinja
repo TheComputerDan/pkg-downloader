@@ -7,8 +7,6 @@ RUN yum install -y yum-utils
 
 WORKDIR /{{image}}_{{tag}}_packages
 
-RUN yum update
-
 RUN echo "#!/bin/bash" >> /root/downloader.sh
 
 {% for package in packages -%}
