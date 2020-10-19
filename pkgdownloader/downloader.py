@@ -1,6 +1,7 @@
+from pkgdownloader.templates import Templates
 from docker import from_env
 from pathlib import Path
-from pkgdownloader.templates import Templates
+import os
 
 class Downloader(object):
 
@@ -10,7 +11,7 @@ class Downloader(object):
         self.client = from_env()
         self.os = os
         self.version = version
-        self.rpm_distributions = ['centos','fedora']
+        self.rpm_distributions = ['centos']
         self.deb_distributions = ['debian','ubuntu']
 
     def build_image(self):
@@ -49,3 +50,10 @@ class Downloader(object):
             },
             auto_remove=True
         )
+
+    def cleanup(self):
+        dockerfiles = [dockerfile for dockerfile in self.docker_directory.glob('DOCKERFILE*')]
+        for dockerfile in dockerfiles:
+            os.remove(dockerfile)
+        else:
+            return None

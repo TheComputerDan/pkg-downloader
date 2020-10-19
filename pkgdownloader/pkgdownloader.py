@@ -61,6 +61,7 @@ def dockerRunner(arguments):
     downloadManager.run_image(
         location=download_location
     )
+    downloadManager.cleanup()
 
 def run():
     args = parser()
