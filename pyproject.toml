@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pkg-downloader"
-version = "0.1.1"
+version = "0.1.2"
 description = "A streamlined way to download packages for offline installation."
 authors = ["Dan"]
 license = "MIT"
