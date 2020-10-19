@@ -7,5 +7,5 @@ venv/
 *_packages/
 __pycache__/
 .pytest_cache/
-pkgdownloader/docker/*
+pkgdownloader/docker/DOCKERFILE*
 dist/
