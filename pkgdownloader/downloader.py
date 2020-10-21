@@ -51,9 +51,20 @@ class Downloader(object):
             auto_remove=True
         )
 
-    def cleanup(self):
+    def cleanup_scripts(self):
+        scripts = [script for script in self.docker_directory.glob('*.sh')]
+        for script in scripts:
+            os.remove(script)
+        else:
+            return None
+
+    def cleanup_dockerfiles(self):
         dockerfiles = [dockerfile for dockerfile in self.docker_directory.glob('DOCKERFILE*')]
         for dockerfile in dockerfiles:
             os.remove(dockerfile)
         else:
             return None
+
+    def cleanup(self):
+        self.cleanup_scripts()
+        self.cleanup_dockerfiles()

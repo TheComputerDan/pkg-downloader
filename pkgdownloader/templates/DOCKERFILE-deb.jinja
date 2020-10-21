@@ -6,6 +6,11 @@ WORKDIR /{{image}}_{{tag}}_packages
 
 RUN apt update
 
+{% if init_script %}
+COPY {{init_script}} /tmp/{{init_script}}
+RUN bash /tmp/{{init_script}}
+{%endif%}
+
 RUN echo "#!/bin/bash" >> /root/downloader.sh
 
 {% for package in packages -%}

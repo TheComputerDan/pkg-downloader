@@ -18,9 +18,11 @@ class Templates(object):
     def print_file(self):
         print(self.docker_directory)
 
-    def dockerfile_setup(self, packages:list):
+    def dockerfile_setup(self, packages:list,**kwargs):
         templateLoader = FileSystemLoader(searchpath=self.templates_location)
         templateEnv = Environment(loader=templateLoader)
+
+        init_script = kwargs.get('init_script')
 
         if self.image in self.rpm_distributions:
             dockerfile_template = self.dockerfile_template_rpm
@@ -31,7 +33,7 @@ class Templates(object):
         
         template = templateEnv.get_template(dockerfile_template)
 
-        outputText = template.render(image=self.image,tag=self.tag,packages=packages)
+        outputText = template.render(image=self.image,tag=self.tag,packages=packages,init_script=init_script)
 
         new_path = self.docker_directory / dockerfile_template.split(".jinja")[0]
         with open(new_path, 'w') as nf:

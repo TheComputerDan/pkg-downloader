@@ -8,4 +8,6 @@ venv/
 __pycache__/
 .pytest_cache/
 pkgdownloader/docker/DOCKERFILE*
+pkgdownloader/docker/*.sh
 dist/
+/*.sh

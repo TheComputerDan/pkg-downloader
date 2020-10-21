@@ -1,7 +1,9 @@
 from pkgdownloader.downloader import Downloader
 from argparse import ArgumentParser, Namespace
 from pkgdownloader.templates import Templates
+from pathlib import Path
 import os
+import shutil 
 
 argsparse = ArgumentParser()
 
@@ -38,6 +40,14 @@ def parser() -> Namespace:
         dest="download_location"
         )
 
+    argsparse.add_argument(
+        '--init-script',
+        type=str,
+        action='store', default=None,
+        help="Location of init script for additional repositories.",
+        dest="init_script"
+    )
+
     args = argsparse.parse_args()
 
     return args
@@ -48,7 +58,14 @@ def buildTemplate(arguments):
         tag=arguments.os_version
     )
 
-    template.dockerfile_setup(arguments.packages_list)
+    init_script = arguments.init_script
+
+    if init_script:
+        init_script_path = Path(init_script)
+        shutil.copy2(init_script_path, template.docker_directory)
+        template.dockerfile_setup(arguments.packages_list,init_script=init_script_path.name)
+    else:
+        template.dockerfile_setup(arguments.packages_list)
 
 def dockerRunner(arguments):
     downloadManager = Downloader(
@@ -65,6 +82,7 @@ def dockerRunner(arguments):
 
 def run():
     args = parser()
+
     buildTemplate(arguments=args)
     dockerRunner(arguments=args)
     print(f"[+] Finished downloading {args.packages_list}")
